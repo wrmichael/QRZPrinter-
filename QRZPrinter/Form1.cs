@@ -35,7 +35,7 @@ namespace QRZPrinter
                 Stream data = client.OpenRead("http://xmldata.qrz.com/xml/current/?username=" + textBox1.Text + ";password=" + textBox2.Text + ";agent=q5.0");
                 StreamReader reader = new StreamReader(data);
                 string s = reader.ReadToEnd();
-                //Console.WriteLine(s);
+                
                 data.Close();
                 reader.Close();
 
@@ -83,8 +83,7 @@ namespace QRZPrinter
         {
             string newt = "";
             string url = "http://xmldata.qrz.com/xml/current/?s=" + k + ";callsign=" +t ;
-            //http://xmldata.qrz.com/xml/current/?s=f894c4bd29f3923f3bacf02c532d7bd9;callsign=aa7bq
-
+            
             WebClient client = new WebClient();
 
             // Add a user agent header in case the
