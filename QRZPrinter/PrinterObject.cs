@@ -19,6 +19,7 @@ namespace QRZPrinter
         //static string filePath;
         public string text = "";
      public string photopath  = "";
+        public string PrinterName = "";
         public PrinterObejct()
         {
             //Printing();
@@ -85,7 +86,9 @@ namespace QRZPrinter
                 {
                     printFont = new Font("Arial", 10);
                     PrintDocument pd = new PrintDocument( );
+                    pd.PrinterSettings.PrinterName = this.PrinterName;
                     pd.DefaultPageSettings.Landscape = true;
+                    
                     pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
                     // Print the document.
                     pd.Print();

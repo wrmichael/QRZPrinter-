@@ -11,6 +11,9 @@ using System.Net;
 using System.IO;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Drawing.Printing;
+using System.Configuration;
+using QRZPrinter.Properties;
 
 namespace QRZPrinter
 {
@@ -23,6 +26,9 @@ namespace QRZPrinter
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Settings.Default.CallSign = textBox1.Text;
+            Settings.Default.PrinterName = sPrinter.Text;
+            Settings.Default.Save();
 
 
                 WebClient client = new WebClient();
@@ -77,6 +83,7 @@ namespace QRZPrinter
                 {
                     p.text = amateur;
                     p.photopath = logopath.Text;
+                    p.PrinterName = sPrinter.Text;
                     p.Printing();
                 }
             }
@@ -237,7 +244,28 @@ namespace QRZPrinter
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            textBox1.Text = Settings.Default.CallSign;
+            int idx = 0;
+            int sidx = 0;
+            foreach (string s in PrinterSettings.InstalledPrinters)
+            {
+                idx = comboBox1.Items.Add(s);
+                if (new PrinterSettings().PrinterName.Equals(s))
+                {
+                    sidx = idx;
+                }
+            }
+
+            if (Settings.Default.PrinterName.Trim().Length == 0)
+            {
+                sPrinter.Text = new PrinterSettings().PrinterName;
+                comboBox1.Text = sPrinter.Text;
+                comboBox1.SelectedItem = sidx;
+            }
+            else
+            {
+                sPrinter.Text = Settings.Default.PrinterName;
+            }
 
         }
 
@@ -276,6 +304,11 @@ namespace QRZPrinter
         {
             textBox3.Text = listBox1.SelectedItem.ToString();
             listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            sPrinter.Text = comboBox1.SelectedItem.ToString();
         }
     }
 }
