@@ -51,6 +51,11 @@ namespace QRZPrinter
             System.Collections.ArrayList addresses = new System.Collections.ArrayList();
             foreach(string t in listBox1.Items)
             {
+
+                if (t.Trim().Length == 0)
+                { 
+                    continue;
+                }
                 string a = getAddress(t,key);
                 if (a.Contains("<ERROR>"))
                 {
