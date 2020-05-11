@@ -28,6 +28,7 @@ namespace QRZPrinter
         {
             Settings.Default.CallSign = textBox1.Text;
             Settings.Default.PrinterName = sPrinter.Text;
+            Settings.Default.ImageName = logopath.Text;
             Settings.Default.Save();
 
 
@@ -244,6 +245,7 @@ namespace QRZPrinter
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            logopath.Text = Settings.Default.ImageName;
             textBox1.Text = Settings.Default.CallSign;
             int idx = 0;
             int sidx = 0;
