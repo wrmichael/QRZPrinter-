@@ -58,5 +58,17 @@ namespace QRZPrinter.Properties {
                 this["ImageName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ADIFOPath {
+            get {
+                return ((string)(this["ADIFOPath"]));
+            }
+            set {
+                this["ADIFOPath"] = value;
+            }
+        }
     }
 }
