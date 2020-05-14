@@ -19,7 +19,9 @@ namespace QRZPrinter
         public string PrinterName = "";
         public string LogoPath = "";
         public string username = "";
-        public string password = ""; 
+        public string password = "";
+        private System.Collections.ArrayList qsos = new System.Collections.ArrayList();
+        public string adifdata = ""; 
 
         private QRZPrinter.GlobalClass global = new QRZPrinter.GlobalClass();
 
@@ -137,7 +139,7 @@ namespace QRZPrinter
             System.IO.StreamReader sr = new System.IO.StreamReader(f);
             string adfi = sr.ReadToEnd();
             sr.Close();
-
+            this.adifdata = adfi; 
             return adfi;
         }
 
@@ -152,24 +154,84 @@ namespace QRZPrinter
                 return;
             }
 
-            System.Collections.ArrayList aaddress = new System.Collections.ArrayList();
-            foreach(ListViewItem li in listView1.SelectedItems)
+
+
+            if (this.ckAddress.Checked)
             {
-                if (li.Text.Trim().Length > 0)
+                System.Collections.ArrayList aaddress = new System.Collections.ArrayList();
+                foreach (ListViewItem li in listView1.SelectedItems)
                 {
-                    aaddress.Add(li.Text);
+                    if (li.Text.Trim().Length > 0)
+                    {
+                        aaddress.Add(li.Text);
+                    }
                 }
+
+                global.callsigns = aaddress;
+                global.PrinterName = this.PrinterName;
+                global.LogoPath = this.LogoPath;
+                global.username = this.username;
+                global.password = this.password;
+                global.printLabelsFromQRZ();
+
             }
 
-            global.callsigns = aaddress;
-            global.PrinterName = this.PrinterName;
-            global.LogoPath = this.LogoPath;
-            global.username = this.username;
-            global.password = this.password;
-            global.printLabelsFromQRZ(); 
+            if (this.ckQSO.Checked)
+            {
+                System.Collections.ArrayList qsos = new System.Collections.ArrayList(); 
+
+                foreach (ListViewItem li in listView1.SelectedItems)
+                {
+                    if (li.Text.Trim().Length > 0)
+                    {
+                        QSOData qd = new QSOData();
+
+                        qd.callsign = li.Text;
+
+                        //formatting may not be universal so I will do it for the SKCC logger but might want to check your ADFI files.. 
+                        if (li.SubItems[1].Text.Length>=8)
+                        {
+                            qd.date = li.SubItems[1].Text.Substring(0, 4) + "-" + li.SubItems[1].Text.Substring(4, 2) + "-" + li.SubItems[1].Text.Substring(6);
+                        } else
+                        {
+                            qd.date = li.SubItems[1].Text;
+                        }
+                        
+                        qd.freq = li.SubItems[2].Text;
+
+                        qd.mode = li.SubItems[3].Text;
+                        //li.SubItems.Add(power);
+                        //check format of time...
+                        
+                        qd.time = li.SubItems[5].Text;
+                        if (qd.time.Length >= 6)
+                        {
+                            //reformat 
+                            qd.time = qd.time.Substring(0, 2) + ":" + qd.time.Substring(2, 2) + ":" + qd.time.Substring(4) + " Z";  // may not want Z.. I do.. 
+                        }
+
+                        qd.sent = li.SubItems[6].Text;
+                        qd.rcvd = li.SubItems[7].Text;
+                        //li.SubItems.Add(qth);
+                        
+                        qsos.Add(qd);
+                    }
+                }
+
+                global.qsos = qsos;
+                global.PrinterName = this.PrinterName;
+                //global.LogoPath = this.LogoPath;
+                //global.username = this.username;
+                //global.password = this.password;
+                global.printQSO();
+            }
+
 
         }
 
-       
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

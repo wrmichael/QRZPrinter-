@@ -23,10 +23,28 @@ namespace QRZPrinter
         public string password;
         public System.Collections.ArrayList callsigns;
         public System.Collections.ArrayList addresses;
+        public System.Collections.ArrayList qsos; 
 
         //public string[] callsigns; 
         public string PrinterName;
-        public string LogoPath;    
+        public string LogoPath;
+
+
+        public void printQSO()
+        {
+            QRZPrinter.PrinterObejct p = new PrinterObejct();
+
+            foreach (QSOData qd in qsos)
+            {
+
+                p.qso = qd;
+                //p.photopath = LogoPath;
+                p.PrinterName = PrinterName;
+                p.PrintQSO();
+
+            }
+        
+        }
 
         public void printLabelsFromQRZ()
         {

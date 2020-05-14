@@ -7,13 +7,16 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-
+using System.Security.Policy;
 
 namespace QRZPrinter
 {
 
     public class PrinterObejct
     {
+
+        public QSOData qso; 
+
         private Font printFont;
         //private StreamReader streamToPrint;
         //static string filePath;
@@ -75,6 +78,59 @@ namespace QRZPrinter
             //else
             //    ev.HasMorePages = false;
         }
+
+
+
+        private void qso_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            float linesPerPage = 0;
+            float yPos = 0;
+            int count = 0;
+            float leftMargin = ev.MarginBounds.Left;
+            float topMargin = ev.MarginBounds.Top;
+
+
+            printFont.GetHeight(ev.Graphics);
+
+            ev.Graphics.DrawString("CALL SIGN: " + qso.callsign, printFont, Brushes.Black, 0, 0, new StringFormat());
+            ev.Graphics.DrawString("QSO DATE: " + qso.date, printFont, Brushes.Black, 0, 25, new StringFormat());
+            ev.Graphics.DrawString("UTC: " + qso.time, printFont, Brushes.Black, 200, 25, new StringFormat());
+
+            ev.Graphics.DrawString("RST SENT: " + qso.sent, printFont, Brushes.Black, 0, 50, new StringFormat());
+            ev.Graphics.DrawString("RST RCVD: " + qso.rcvd, printFont, Brushes.Black, 200, 50, new StringFormat());
+            
+            ev.Graphics.DrawString("FREQUECY: " + qso.freq, printFont, Brushes.Black, 0, 75, new StringFormat());
+            ev.Graphics.DrawString("MODE: " + qso.mode, printFont, Brushes.Black, 200, 75, new StringFormat());
+        }
+
+
+        public void PrintQSO()
+        {
+            try
+            {
+                //streamToPrint = new StreamReader(filePath);
+                try
+                {
+                    printFont = new Font("Arial", 10);
+                    PrintDocument pd = new PrintDocument();
+                    pd.PrinterSettings.PrinterName = this.PrinterName;
+                    pd.DefaultPageSettings.Landscape = true;
+
+                    pd.PrintPage += new PrintPageEventHandler(qso_PrintPage);
+                    // Print the document.
+                    pd.Print();
+                }
+                finally
+                {
+                    //streamToPrint.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
         // Print the file.
         public void Printing()
