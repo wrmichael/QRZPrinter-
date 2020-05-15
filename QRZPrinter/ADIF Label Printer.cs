@@ -21,8 +21,8 @@ namespace QRZPrinter
         public string username = "";
         public string password = "";
         private System.Collections.ArrayList qsos = new System.Collections.ArrayList();
-        public string adifdata = ""; 
-
+        public string adifdata = "";
+        public string[] qsofields = Settings.Default.QSOFields.Split(',');
         private QRZPrinter.GlobalClass global = new QRZPrinter.GlobalClass();
 
         public ADIF_Label_Printer()
@@ -32,7 +32,25 @@ namespace QRZPrinter
 
         private void ADIF_Label_Printer_Load(object sender, EventArgs e)
         {
+            if (Settings.Default.LabelTemplate.Length > 0)
+            {
+                textBox1.Text = Settings.Default.LabelTemplate;
+
+            }
+            
             listView1.Items.Clear();
+            listView1.View = View.Details;
+            listView1.FullRowSelect = true;
+            listView1.MultiSelect = true; 
+
+            foreach (string s in qsofields)
+            {
+                if (s.Length > 0)
+                {
+                    listView1.Columns.Add(s);  
+                }
+            }
+            /*
             listView1.Columns.Add("Call Sign");
             listView1.Columns.Add("Date");
             listView1.Columns.Add("Frequency");
@@ -43,7 +61,7 @@ namespace QRZPrinter
             listView1.Columns.Add("Received RST");
             listView1.Columns.Add("QTH");
             listView1.View = View.Details;
-
+            */
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -78,48 +96,75 @@ namespace QRZPrinter
 
             foreach (string r in adfi.Split(new string[] { "<EOR>" },StringSplitOptions.None))
             {
-                call = getvalue(r,"CALL");
-                freq = getvalue(r,"FREQ");
-                mode = getvalue(r, "MODE");
-
-                power = getvalue(r, "TX_PWR");
-                time = getvalue(r, "TIME_ON");
-                sent = getvalue(r, "RST_SENT");
-                rcv = getvalue(r, "RST_RCVD");
-                qth = getvalue(r, "QTH");
-                date = getvalue(r, "QSO_DATE");
-                //listView1.Columns.Add("Call Sign");
-                //listView1.Columns.Add("Date");
-                //listView1.Columns.Add("Frequency");
-                //listView1.Columns.Add("Mode");
-                //listView1.Columns.Add("Power");
-                //listView1.Columns.Add("Time");
-                //listView1.Columns.Add("Sent RST");
-                //listView1.Columns.Add("Received RST");
-                //listView1.Columns.Add("QTH");
-
-
+               
 
                 ListViewItem li = new ListViewItem();
-                li.Text = call;
-                li.SubItems.Add(date);
-                li.SubItems.Add(freq);
-                li.SubItems.Add(mode);
-                li.SubItems.Add(power);
-                li.SubItems.Add(time);
-                li.SubItems.Add(sent);
-                li.SubItems.Add(rcv);
-                li.SubItems.Add(qth);
+
+                int x = 0;
+                string special="";
+
+                foreach (string s in qsofields)
+                {
+                    special = "";
+                    x++;
+                    if (x == 1)
+                    {
+                        li.Text = getvalue(r, s);
+                    }
+                    else
+                    {
+
+                        if (s.Equals("QSO_DATE"))
+                        {
+
+                            //formatting may not be universal so I will do it for the SKCC logger but might want to check your ADFI files.. 
+                            if (getvalue(r, s).Length >= 8)
+                            {
+                                special = getvalue(r, s).Substring(0, 4) + "-" + getvalue(r, s).Substring(4, 2) + "-" + getvalue(r, s).Substring(6);
+                            }
+                            else
+                            {
+                                special = getvalue(r, s);
+                            }
+
+                        }
+                        if (s.Equals("TIME_ON"))
+                        {
+                            
+                            if (getvalue(r,s).Length >= 6)
+                            {
+                                //reformat 
+                                special = getvalue(r, s).Substring(0, 2) + ":" + getvalue(r, s).Substring(2, 2) + ":" + getvalue(r, s).Substring(4) + " Z";  // may not want Z.. I do.. 
+                            }
+                        }
+                        if (special.Length > 0)
+                        {
+                            li.SubItems.Add(special);
+                        }
+                        else
+                        {
+                            li.SubItems.Add(getvalue(r, s));
+                        }
+                    
+                    }
+                    
+                
+                }
                 listView1.Items.Add(li);
+                //li.Text = call;
+
+
             }
         }
 
         public string getvalue(string s, string f)
         {
+
             string t = "";
             string ns="";
             int cc = 0;
-            if (s.IndexOf(f) > -1)
+            if (s.IndexOf("<"+f + ":") > 0)
+
             {
                 //look for value 
                 t  = s.Substring(s.IndexOf("<" + f + ":") + f.Length +2);
@@ -178,6 +223,27 @@ namespace QRZPrinter
 
             if (this.ckQSO.Checked)
             {
+
+
+                System.Collections.ArrayList qsos = new System.Collections.ArrayList();
+                string label = textBox1.Text; 
+
+
+
+                foreach (ListViewItem li in listView1.SelectedItems)
+                {
+                    label = textBox1.Text;
+                    for (int idx = 0; idx < li.SubItems.Count; idx++)
+                    {                        
+                        label = label.Replace("@" + listView1.Columns[idx].Text + "@", li.SubItems[idx].Text);
+                    }
+
+                    // take the value from the list and replace the value in the label. 
+
+                    qsos.Add(label); 
+                }
+
+                /*
                 System.Collections.ArrayList qsos = new System.Collections.ArrayList(); 
 
                 foreach (ListViewItem li in listView1.SelectedItems)
@@ -217,13 +283,22 @@ namespace QRZPrinter
                         qsos.Add(qd);
                     }
                 }
+                */
 
+                string line1 = "";
+                string line2 = "";
+                string line3 = "";
+                string line4 = "";
+
+                
                 global.qsos = qsos;
                 global.PrinterName = this.PrinterName;
                 //global.LogoPath = this.LogoPath;
                 //global.username = this.username;
-                //global.password = this.password;
-                global.printQSO();
+                //global.password = this.password;                
+                global.printQSOTemplate();
+
+
             }
 
 
@@ -231,6 +306,14 @@ namespace QRZPrinter
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Settings.Default.LabelTemplate = textBox1.Text;
+            Settings.Default.Save();
+
 
         }
     }

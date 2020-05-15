@@ -70,5 +70,30 @@ namespace QRZPrinter.Properties {
                 this["ADIFOPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CALL,NAME,QSO_DATE,TIME_ON,RST_SENT,RST_RCVD,MODE,QTH,BAND,FREQ,SKCC,TX_PWR,COMME" +
+            "NT")]
+        public string QSOFields {
+            get {
+                return ((string)(this["QSOFields"]));
+            }
+            set {
+                this["QSOFields"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LabelTemplate {
+            get {
+                return ((string)(this["LabelTemplate"]));
+            }
+            set {
+                this["LabelTemplate"] = value;
+            }
+        }
     }
 }

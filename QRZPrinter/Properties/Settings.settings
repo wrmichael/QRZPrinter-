@@ -14,5 +14,11 @@
     <Setting Name="ADIFOPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="QSOFields" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CALL,NAME,QSO_DATE,TIME_ON,RST_SENT,RST_RCVD,MODE,QTH,BAND,FREQ,SKCC,TX_PWR,COMMENT</Value>
+    </Setting>
+    <Setting Name="LabelTemplate" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

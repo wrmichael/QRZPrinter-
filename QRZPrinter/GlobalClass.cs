@@ -30,6 +30,22 @@ namespace QRZPrinter
         public string LogoPath;
 
 
+        public void printQSOTemplate()
+        {
+            QRZPrinter.PrinterObejct p = new PrinterObejct();
+
+            foreach (string qd in qsos)
+            {
+                p.qsoline1 = qd;
+                //p.qso = qd;
+                //p.photopath = LogoPath;
+                p.PrinterName = PrinterName;
+                p.PrintQSOTemplate();
+
+            }
+
+        }
+
         public void printQSO()
         {
             QRZPrinter.PrinterObejct p = new PrinterObejct();
@@ -185,6 +201,10 @@ namespace QRZPrinter
         {
             string news = "";
 
+            if (s.ToUpper().IndexOf("<STATE>") <= 0 )
+            {
+                return news; 
+            }
             news = s.Substring(s.ToUpper().IndexOf("<STATE>") + 7);
             news = news.ToUpper().Split(new string[] { "</STATE>" }, StringSplitOptions.RemoveEmptyEntries)[0];
             /*
@@ -201,7 +221,10 @@ namespace QRZPrinter
         public string getAmateurZip(string s)
         {
             string news = "";
-
+            if (s.ToUpper().IndexOf("<ZIP>") <= 0)
+            {
+                return news;
+            }
             news = s.Substring(s.ToUpper().IndexOf("<ZIP>") + 5);
             news = news.ToUpper().Split(new string[] { "</ZIP>" }, StringSplitOptions.RemoveEmptyEntries)[0];
             /*

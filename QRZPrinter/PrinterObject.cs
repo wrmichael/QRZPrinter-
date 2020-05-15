@@ -15,7 +15,13 @@ namespace QRZPrinter
     public class PrinterObejct
     {
 
-        public QSOData qso; 
+        public QSOData qso;
+
+        public string qsoline1;
+        public string qsoline2;
+        public string qsoline3;
+        public string qsoline4;
+
 
         private Font printFont;
         //private StreamReader streamToPrint;
@@ -102,6 +108,44 @@ namespace QRZPrinter
             ev.Graphics.DrawString("FREQUECY: " + qso.freq, printFont, Brushes.Black, 0, 75, new StringFormat());
             ev.Graphics.DrawString("MODE: " + qso.mode, printFont, Brushes.Black, 200, 75, new StringFormat());
         }
+
+
+        public void PrintingQSOTemplate(object sender, PrintPageEventArgs ev)
+        {
+            
+
+            ev.Graphics.DrawString(qsoline1, printFont, Brushes.Black, 0,0, new StringFormat());
+            
+        }
+
+
+        public void PrintQSOTemplate()
+        {
+            try
+            {
+                //streamToPrint = new StreamReader(filePath);
+                try
+                {
+                    printFont = new Font("Arial", 10);
+                    PrintDocument pd = new PrintDocument();
+                    pd.PrinterSettings.PrinterName = this.PrinterName;
+                    pd.DefaultPageSettings.Landscape = true;
+
+                    pd.PrintPage += new PrintPageEventHandler(PrintingQSOTemplate);
+                    // Print the document.
+                    pd.Print();
+                }
+                finally
+                {
+                    //streamToPrint.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
 
         public void PrintQSO()
