@@ -112,9 +112,9 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(423, 78);
             this.textBox1.TabIndex = 7;
-            this.textBox1.Text = "CALL: @CALL@   NAME: @NAME@\r\nDATE: @QSO_DATE@  - @TIME_ON@\r\nMODE: @MODE@  FREQUEN" +
-    "CY: @FREQ@  BAND: @BAND@\r\nSENT RST: @RST_SENT@  RCVD RST: @RST_RCVD@ \r\nComment: " +
-    "@COMMENT@\r\n\r\n";
+            this.textBox1.Text = "CALL: @CALL@   NAME: @NAME@\r\nDATE: @QSO_DATE@  - @TIME_ON@\r\nMODE: @MODE@    BAND:" +
+    " @BAND@  FREQ: @FREQ@\r\nSENT RST: @RST_SENT@  RCVD RST: @RST_RCVD@ \r\nComment: @CO" +
+    "MMENT@\r\n\r\n";
             // 
             // button3
             // 

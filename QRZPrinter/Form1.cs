@@ -110,8 +110,14 @@ namespace QRZPrinter
             //Console.WriteLine(s);
             data.Close();
             reader.Close();
+            string name = getvalue(s, "FNAME") + " " + getvalue(s, "NAME");
 
-            newt = t.ToUpper() + "\r\n" + getfName(s) + " " + getName(s) + "\r\n" ;
+            newt = t.ToUpper() + "\r\n" + name.Trim() + "\r\n" ;
+            if (newt.Equals(t.ToUpper() + "\r\n" + " " + "\r\n"))
+            {
+                newt = t.ToUpper() + "\r\n" + this.getvalue(s, "NAME") + "\r\n";
+
+            }
             newt = newt + getAmateurAddress(s) + "\r\n";
             newt = newt + getAmateurCity(s) + " " + getAmateurState(s) + " " + getAmateurZip(s) + "\r\n";
             newt = newt + getAmateurCountry(s);
@@ -120,10 +126,30 @@ namespace QRZPrinter
                
         }
 
+
+        public string getvalue(string s, string f)
+        {
+
+            string t = "";
+            string ns = "";
+            int cc = 0;
+            if (s.ToUpper().IndexOf("<" + f + ">") > 0)
+
+            {
+
+                ns = s.Substring(s.ToUpper().IndexOf("<" + f.ToUpper() + ">") + f.Length + 2);
+                ns = ns.ToUpper().Split(new string[] { "</"+ f + ">" }, StringSplitOptions.RemoveEmptyEntries)[0];
+
+            }
+            return ns;
+        }
         public string getfName(string s)
         {
             string news = "";
-
+            if (s.ToUpper().IndexOf("<FNAME>") <= 0)
+            {
+                return "";
+            }
             news = s.Substring(s.ToUpper().IndexOf("<FNAME>")+7);
             news = news.ToUpper().Split(new string[] { "</FNAME>"},StringSplitOptions.RemoveEmptyEntries)[0];
      //       < fname > Raymond G </ fname >
@@ -137,7 +163,12 @@ namespace QRZPrinter
         {
             string news = "";
 
-            news = s.Substring(s.ToUpper().IndexOf("<ADDR1>") + 7);
+            if (s.ToUpper().IndexOf("<ADDR1>") <= 0)
+            {
+                return;
+            }
+
+                news = s.Substring(s.ToUpper().IndexOf("<ADDR1>") + 7);
             news = news.ToUpper().Split(new string[] { "</ADDR1>" }, StringSplitOptions.RemoveEmptyEntries)[0];
            /*
             * <addr1>916 NORTH ST APT 2</addr1>
@@ -153,6 +184,11 @@ namespace QRZPrinter
         public string getAmateurCity(string s)
         {
             string news = "";
+
+            if (s.ToUpper().IndexOf("<ADDR2>") <= 0)
+            {
+                return "";
+            }
 
             news = s.Substring(s.ToUpper().IndexOf("<ADDR2>") + 7);
             news = news.ToUpper().Split(new string[] { "</ADDR2>" }, StringSplitOptions.RemoveEmptyEntries)[0];
@@ -170,6 +206,11 @@ namespace QRZPrinter
         {
             string news = "";
 
+            if (s.ToUpper().IndexOf("<STATE>") <=0 )
+            {
+                return ""
+            }
+
             news = s.Substring(s.ToUpper().IndexOf("<STATE>") + 7);
             news = news.ToUpper().Split(new string[] { "</STATE>" }, StringSplitOptions.RemoveEmptyEntries)[0];
             /*
@@ -186,7 +227,10 @@ namespace QRZPrinter
         public string getAmateurZip(string s)
         {
             string news = "";
-
+            if (s.ToUpper().IndexOf("<ZIP>") <= 0)
+            {
+                return "";
+            }
             news = s.Substring(s.ToUpper().IndexOf("<ZIP>") + 5);
             news = news.ToUpper().Split(new string[] { "</ZIP>" }, StringSplitOptions.RemoveEmptyEntries)[0];
             /*
@@ -202,6 +246,11 @@ namespace QRZPrinter
         public string getAmateurCountry(string s)
         {
             string news = "";
+
+            if (s.ToUpper().IndexOf("<COUNTRY>") <= 0)
+            {
+                return "";
+            }
 
             news = s.Substring(s.ToUpper().IndexOf("<COUNTRY>") + 9);
             news = news.ToUpper().Split(new string[] { "</COUNTRY>" }, StringSplitOptions.RemoveEmptyEntries)[0];
@@ -221,7 +270,10 @@ namespace QRZPrinter
         public string getName(string s)
         {
             string news = "";
-
+            if (s.IndexOf("<NAME>") <= 0)
+            {
+                return "";
+            }
             news = s.Substring(s.ToUpper().IndexOf("<NAME>") + 6);
             news = news.ToUpper().Split(new string[] { "</NAME>" }, StringSplitOptions.RemoveEmptyEntries)[0];
             //       < fname > Raymond G </ fname >
