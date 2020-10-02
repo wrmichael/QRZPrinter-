@@ -16,7 +16,14 @@ namespace QRZPrinter
         public string time;
         public string freq;
         public string mode;
-        public string comment; 
+        public string comment;
+        public string QSL_SENT;
+        public string band;
+        public string name;
+        public string qth;
+        public string power; 
+
+
 
     }
 }

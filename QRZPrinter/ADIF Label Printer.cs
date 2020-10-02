@@ -37,7 +37,23 @@ namespace QRZPrinter
                 textBox1.Text = Settings.Default.LabelTemplate;
 
             }
-            
+
+            if (Settings.Default.HRD_SERVER.Length > 0)
+            {
+                textBox5.Text = Settings.Default.HRD_SERVER;
+            }
+
+            if (Settings.Default.HRD_USER.Length > 0)
+            {
+                textBox3.Text = Settings.Default.HRD_USER;
+            }
+
+            //TODO - Secure/encrypt this
+            if (Settings.Default.HRD_PASSWORD.Length > 0)
+            {
+                textBox4.Text = Settings.Default.HRD_PASSWORD;
+            }
+
             listView1.Items.Clear();
             listView1.View = View.Details;
             listView1.FullRowSelect = true;
@@ -314,6 +330,78 @@ namespace QRZPrinter
             Settings.Default.LabelTemplate = textBox1.Text;
             Settings.Default.Save();
 
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            listView1.Columns.Clear();
+            listView1.Items.Clear();
+            listView1.View = View.Details;
+            listView1.FullRowSelect = true;
+            listView1.MultiSelect = true;
+
+            foreach (string s in qsofields)
+            {
+                if (s.Length > 0)
+                {
+                    listView1.Columns.Add(s);
+                }
+            }
+
+
+            HRDInterface.callsign = textBox2.Text;
+            HRDInterface.u = textBox3.Text;
+            HRDInterface.p = textBox4.Text; 
+
+            System.Collections.ArrayList q = HRDInterface.test();
+
+
+            for (int x = 0; x < q.Count; x++)
+            {
+
+                try
+                {
+                    QSOData d = (QSOData)q[x];
+
+
+                    ListViewItem li = new ListViewItem();
+                    li.Text = d.callsign; 
+                    li.SubItems.Add(d.name);
+                    li.SubItems.Add(d.date);
+                    li.SubItems.Add(d.date);
+                    li.SubItems.Add(d.sent);
+                    li.SubItems.Add(d.rcvd);
+                    li.SubItems.Add(d.mode);
+                    li.SubItems.Add(d.qth);
+                    li.SubItems.Add(d.band);
+                    li.SubItems.Add(d.freq);
+                    li.SubItems.Add("");//skcc
+                    li.SubItems.Add("");//TXPWR
+                    li.SubItems.Add(d.comment);//TXPWR
+
+                    if (d.QSL_SENT.Equals("Y"))
+                    {
+                        li.BackColor = Color.OrangeRed;
+                    }
+
+                    listView1.Items.Add(li);
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                }
+            }
+
+            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Settings.Default.HRD_SERVER = textBox5.Text;
+            Settings.Default.HRD_PASSWORD = textBox4.Text;
+            Settings.Default.HRD_USER = textBox3.Text;
+            Settings.Default.Save();
 
         }
     }

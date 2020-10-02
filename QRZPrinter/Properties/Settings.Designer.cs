@@ -95,5 +95,41 @@ namespace QRZPrinter.Properties {
                 this["LabelTemplate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HRD_USER {
+            get {
+                return ((string)(this["HRD_USER"]));
+            }
+            set {
+                this["HRD_USER"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HRD_PASSWORD {
+            get {
+                return ((string)(this["HRD_PASSWORD"]));
+            }
+            set {
+                this["HRD_PASSWORD"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HRD_SERVER {
+            get {
+                return ((string)(this["HRD_SERVER"]));
+            }
+            set {
+                this["HRD_SERVER"] = value;
+            }
+        }
     }
 }

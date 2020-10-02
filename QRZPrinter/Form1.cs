@@ -165,7 +165,7 @@ namespace QRZPrinter
 
             if (s.ToUpper().IndexOf("<ADDR1>") <= 0)
             {
-                return;
+                return "";
             }
 
                 news = s.Substring(s.ToUpper().IndexOf("<ADDR1>") + 7);
@@ -208,7 +208,7 @@ namespace QRZPrinter
 
             if (s.ToUpper().IndexOf("<STATE>") <=0 )
             {
-                return ""
+                return "";
             }
 
             news = s.Substring(s.ToUpper().IndexOf("<STATE>") + 7);
@@ -375,6 +375,18 @@ namespace QRZPrinter
 
             af.ShowDialog();
             af.Close();
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+            HRDInterface.test(); 
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
 
         }
     }
