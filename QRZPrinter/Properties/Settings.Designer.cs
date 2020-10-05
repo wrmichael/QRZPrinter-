@@ -131,5 +131,29 @@ namespace QRZPrinter.Properties {
                 this["HRD_SERVER"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string QRZ_User {
+            get {
+                return ((string)(this["QRZ_User"]));
+            }
+            set {
+                this["QRZ_User"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string QRZ_Password {
+            get {
+                return ((string)(this["QRZ_Password"]));
+            }
+            set {
+                this["QRZ_Password"] = value;
+            }
+        }
     }
 }

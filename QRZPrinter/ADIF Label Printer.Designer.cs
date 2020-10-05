@@ -65,7 +65,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(666, 12);
+            this.label1.Location = new System.Drawing.Point(611, 13);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
@@ -87,7 +87,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(746, 8);
+            this.button2.Location = new System.Drawing.Point(869, 52);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(49, 23);
@@ -99,7 +99,7 @@
             // ckQSO
             // 
             this.ckQSO.AutoSize = true;
-            this.ckQSO.Location = new System.Drawing.Point(804, 8);
+            this.ckQSO.Location = new System.Drawing.Point(869, 83);
             this.ckQSO.Name = "ckQSO";
             this.ckQSO.Size = new System.Drawing.Size(78, 17);
             this.ckQSO.TabIndex = 5;
@@ -109,7 +109,7 @@
             // ckAddress
             // 
             this.ckAddress.AutoSize = true;
-            this.ckAddress.Location = new System.Drawing.Point(888, 8);
+            this.ckAddress.Location = new System.Drawing.Point(869, 106);
             this.ckAddress.Name = "ckAddress";
             this.ckAddress.Size = new System.Drawing.Size(93, 17);
             this.ckAddress.TabIndex = 6;

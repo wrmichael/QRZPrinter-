@@ -352,7 +352,8 @@ namespace QRZPrinter
 
             HRDInterface.callsign = textBox2.Text;
             HRDInterface.u = textBox3.Text;
-            HRDInterface.p = textBox4.Text; 
+            HRDInterface.p = textBox4.Text;
+            HRDInterface.s = textBox5.Text;
 
             System.Collections.ArrayList q = HRDInterface.test();
 

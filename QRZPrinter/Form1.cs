@@ -298,7 +298,9 @@ namespace QRZPrinter
         private void Form1_Load(object sender, EventArgs e)
         {
             logopath.Text = Settings.Default.ImageName;
-            textBox1.Text = Settings.Default.CallSign;
+            textBox1.Text = Settings.Default.QRZ_User;
+            textBox2.Text = Settings.Default.QRZ_Password;
+
             int idx = 0;
             int sidx = 0;
             foreach (string s in PrinterSettings.InstalledPrinters)
@@ -387,6 +389,14 @@ namespace QRZPrinter
 
         private void label1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            Settings.Default.QRZ_Password = textBox2.Text;
+            Settings.Default.QRZ_User = textBox1.Text;
+            Settings.Default.Save(); 
 
         }
     }

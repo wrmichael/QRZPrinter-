@@ -20,10 +20,11 @@ namespace QRZPrinter
     {
         
         public static   string sql_getbycall = "SELECT COL_TX_PWR, COL_NAME, COL_QTH, COL_CALL,COL_FREQ, COL_BAND, COL_MODE, COL_TIME_ON,COL_RST_SENT, COL_RST_RCVD, COL_QSL_RCVD, COL_QSL_SENT, COL_COMMENT FROM HRD.TABLE_HRD_CONTACTS_V01";
-        public static string connstring = @"server=MariaDB.local;userid=%U%;password=%P%;database=HRD";
+        public static string connstring = @"server=%S%;userid=%U%;password=%P%;database=HRD";
         public static MySqlConnection conn;
         public static string u;
         public static string p;
+        public static string s;
 
         //filters
         public static string callsign; 
@@ -36,6 +37,7 @@ namespace QRZPrinter
             {
                 connstring = connstring.Replace("%U%", u);
                 connstring = connstring.Replace("%P%", p);
+                connstring = connstring.Replace("%S%", s);
 
                 conn = new MySqlConnection(connstring);
                 
@@ -50,7 +52,7 @@ namespace QRZPrinter
                 }
                 else
                 {
-                    query = query + " LIMIT 5000";
+                    //query = query + " LIMIT 5000";
                 }
                 MySqlDataAdapter da = new MySqlDataAdapter(query, conn);
                 DataSet ds = new DataSet();
