@@ -165,7 +165,7 @@ namespace QRZPrinter
 
             if (s.ToUpper().IndexOf("<ADDR1>") <= 0)
             {
-                return;
+                return "";
             }
 
                 news = s.Substring(s.ToUpper().IndexOf("<ADDR1>") + 7);
@@ -208,7 +208,7 @@ namespace QRZPrinter
 
             if (s.ToUpper().IndexOf("<STATE>") <=0 )
             {
-                return ""
+                return "";
             }
 
             news = s.Substring(s.ToUpper().IndexOf("<STATE>") + 7);
