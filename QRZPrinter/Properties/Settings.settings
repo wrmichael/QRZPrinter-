@@ -15,7 +15,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="QSOFields" Type="System.String" Scope="User">
-      <Value Profile="(Default)">CALL,NAME,QSO_DATE,TIME_ON,RST_SENT,RST_RCVD,MODE,QTH,BAND,FREQ,SKCC,TX_PWR,COMMENT</Value>
+      <Value Profile="(Default)">CALL,NAME,QSO_DATE,TIME_ON,RST_SENT,RST_RCVD,MODE,QTH,BAND,FREQ,SKCC,TX_PWR,COMMENT,QSLBYMAIL,EMAIL</Value>
     </Setting>
     <Setting Name="LabelTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -30,10 +30,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="QRZ_User" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">ac9hp</Value>
     </Setting>
     <Setting Name="QRZ_Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">radio123</Value>
+    </Setting>
+    <Setting Name="DONOTEMAIL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">,K3VAT,</Value>
     </Setting>
   </Settings>
 </SettingsFile>

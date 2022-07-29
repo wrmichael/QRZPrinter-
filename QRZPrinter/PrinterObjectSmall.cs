@@ -12,7 +12,7 @@ using System.Security.Policy;
 namespace QRZPrinter
 {
 
-    public class PrinterObejct
+    public class PrinterObejctSmall
     {
 
         public QSOData qso;
@@ -40,7 +40,7 @@ namespace QRZPrinter
             float leftMargin = ev.MarginBounds.Left;
             float topMargin = ev.MarginBounds.Top;
 
-            Bitmap bm = new Bitmap(60, 60);
+            Bitmap bm = new Bitmap(40, 40);
             Image logoImage = Image.FromHbitmap(bm.GetHbitmap());
 
             if (System.IO.File.Exists(photopath))
@@ -59,7 +59,7 @@ namespace QRZPrinter
             if (System.IO.File.Exists(photopath))
             {
 
-                ev.Graphics.DrawImage(logoImage, new Point(0, 0));
+                ev.Graphics.DrawImage(logoImage, new Point(0, 10));
             }
 
             // Iterate over the file, printing each line.
@@ -71,7 +71,7 @@ namespace QRZPrinter
                 yPos = topMargin + (count * printFont.GetHeight(ev.Graphics));
                
                 ev.Graphics.DrawString(lines[idx], printFont, Brushes.Black,
-                   75, 0 + (count * 15), new StringFormat());
+                   60, 25 + (count * 10), new StringFormat());
                 count++;
             }
 
@@ -111,7 +111,7 @@ namespace QRZPrinter
         {
             
 
-            ev.Graphics.DrawString(qsoline1, printFont, Brushes.Black, 0,0, new StringFormat());
+            ev.Graphics.DrawString(qsoline1, printFont, Brushes.Black, 0,15, new StringFormat());
             
         }
 
@@ -123,7 +123,7 @@ namespace QRZPrinter
                 //streamToPrint = new StreamReader(filePath);
                 try
                 {
-                    printFont = new Font("Arial", 10);
+                    printFont = new Font("Arial", 7);
                     PrintDocument pd = new PrintDocument();
                     pd.PrinterSettings.PrinterName = this.PrinterName;
                     pd.DefaultPageSettings.Landscape = true;
@@ -181,7 +181,7 @@ namespace QRZPrinter
                 //streamToPrint = new StreamReader(filePath);
                 try
                 {
-                    printFont = new Font("Arial", 10);
+                    printFont = new Font("Arial", 8);
                     PrintDocument pd = new PrintDocument( );
                     pd.PrinterSettings.PrinterName = this.PrinterName;
                     pd.DefaultPageSettings.Landscape = true;

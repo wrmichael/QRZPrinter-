@@ -399,5 +399,73 @@ namespace QRZPrinter
             Settings.Default.Save(); 
 
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Settings.Default.CallSign = textBox1.Text;
+            Settings.Default.PrinterName = sPrinter.Text;
+            Settings.Default.ImageName = logopath.Text;
+            Settings.Default.Save();
+
+
+            WebClient client = new WebClient();
+
+            // Add a user agent header in case the
+            // requested URI contains a query.
+
+            client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+            Stream data = client.OpenRead("http://xmldata.qrz.com/xml/current/?username=" + textBox1.Text + ";password=" + textBox2.Text + ";agent=q5.0");
+            StreamReader reader = new StreamReader(data);
+            string s = reader.ReadToEnd();
+
+            data.Close();
+            reader.Close();
+
+            string key = getKey(s);
+            label2.Text = "Key: " + key;
+
+            if (key.ToUpper().Contains("<ERROR>"))
+            {
+                MessageBox.Show("An error occurred logging in.  Check password and/or internet connection");
+                return;
+            }
+
+            System.Collections.ArrayList addresses = new System.Collections.ArrayList();
+            foreach (string t in listBox1.Items)
+            {
+
+                if (t.Trim().Length == 0)
+                {
+                    continue;
+                }
+                string a = getAddress(t, key);
+                if (a.Contains("<ERROR>"))
+                {
+                    listBox2.Items.Add(t);
+                }
+                else
+                {
+                    addresses.Add(a);
+                    listBox3.Items.Add(t);
+                }
+
+            }
+            listBox1.Items.Clear();
+
+            QRZPrinter.PrinterObejctSmall p = new PrinterObejctSmall();
+            foreach (string amateur in addresses)
+            {
+                //System.Windows.Forms.MessageBox.Show(amateur);
+                if (amateur.Length > 0)
+                {
+                    p.text = amateur;
+                    p.photopath = logopath.Text;
+                    p.PrinterName = sPrinter.Text;
+                    p.Printing();
+                }
+            }
+
+        }
     }
 }
